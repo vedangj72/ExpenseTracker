@@ -1,35 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import useGetData from '../hooks/useGetdata';
+import "../components/home.css"; // Import your external CSS file
 
 function Home() {
-    const url = "http://localhost:8000/api/expenses";
-    const [data, setData] = useState([]);
+  const url = "http://localhost:8000/api/expenses";
+  const { data, loadingget, errorget } = useGetData(url);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(url);
-                setData(response.data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
+  if (loadingget) {
+    return <p>Loading...</p>;
+  }
 
-        fetchData(); 
-    }, []); 
+  if (errorget) {
+    return <p>Error: {errorget.message}</p>;
+  }
 
-    return (
-        <div>
-        
-            <ul>
-                {data.map((item, index) => (
-                    <li key={index}>
-                        {item.description} - ${item.amount}
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+  return (
+  
+    <div className="container mt-2">
+      <div className=' text-start'>
+        <button> Post</button>
+      </div>
+      <table className='table table-bordered table-striped mt-4'>
+        <thead className="thead-dark">
+          <tr>
+            <th>Amount</th>
+            <th>Description</th>
+            <th>Category</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((item) => (
+            <tr key={item._id}>
+              <td>{item.amount}</td>
+              <td>{item.description}</td>
+              <td>{item.category}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
 export default Home;

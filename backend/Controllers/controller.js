@@ -20,7 +20,7 @@ const expensePost = async(req, res) => {
         const newExpense = await Expense.create({ description, amount, category });
 
         console.log(`Data posted successfully`);
-        res.status(200).send(`Data posted successfully : ${newExpense}`);
+        res.status(200);
     } catch (error) {
         console.error('Error creating expense:', error);
         res.status(500).json({ error: 'Internal Server Error' });
