@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 function Post() {
   const url = "http://localhost:8000/api/expenses"; // Change the URL to your API endpoint
@@ -8,6 +9,7 @@ function Post() {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -22,9 +24,14 @@ function Post() {
       setIsLoading(false);
     }
   };
+  const Homebtn=()=>{
+    navigate("/");
+  }
+  
 
   return (
-    <div className="container mt-2">
+    <div className="container mt-4">
+     
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group">
           <label htmlFor="amount">Amount:</label>
@@ -59,9 +66,12 @@ function Post() {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary m-2" disabled={isLoading}>
+        <button type="submit" className="btn btn-primary m-2 " disabled={isLoading}>
           {isLoading ? 'Submitting...' : 'Submit'}
         </button>
+        <div>
+            <button className='btn btn-success' style={{float:"right", margin:"10px"}} onClick={Homebtn}>Home</button>
+        </div>
       </form>
 
       {isLoading && <p className='text-center '>Loading...</p>}
