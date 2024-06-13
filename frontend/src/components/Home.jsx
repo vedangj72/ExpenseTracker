@@ -7,7 +7,7 @@ function Home() {
   const url = "http://localhost:8000/api/expenses";
   const { data, loadingget, errorget } = useGetData(url);
   const navigate = useNavigate();
-
+  
   if (loadingget) {
     return <p className="loading-message">Loading...</p>;
   }
@@ -19,9 +19,7 @@ function Home() {
   const postbtn = () => {
     navigate("/Post");
   };
-  const Viewbtn=(e)=>{
-    console.log(e.target._id);
-  }
+ 
 
   return (
     <div className="container mt-4">
@@ -43,9 +41,6 @@ function Home() {
               <td>{item.amount}</td>
               <td>{item.description}</td>
               <td>{item.category}</td>
-              <td>
-                <button className="btn btn-success text-center" onClick={Viewbtn}>View</button>
-              </td>
             </tr>
           ))}
         </tbody>

@@ -51,9 +51,21 @@ const expenseDeleteAll = async(req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-
-module.exports = { expenseDeleteAll };
-
+// Get by id 
+const expenseById = async(req, res) => {
+    try {
+        const { id } = req.params;
+        const getExpense = await Expense.findByIdAndDelete(id);
+        if (getExpense) {
+            res.status(200).send(getExpense);
+        } else {
+            res.status(404).send("No data found of about this expense");
+        }
+    } catch (error) {
+        console.error('Error deleting expense single:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
 
 //update data 
 const expenseUpdateData = async(req, res) => {
@@ -69,4 +81,4 @@ const expenseUpdateData = async(req, res) => {
     }
 }
 
-module.exports = { expenseGet, expensePost, expenseDelete, expenseDeleteAll, expenseUpdateData };
+module.exports = { expenseGet, expensePost, expenseDelete, expenseDeleteAll, expenseUpdateData, expenseById };
